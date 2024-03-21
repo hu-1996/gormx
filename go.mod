@@ -1,4 +1,4 @@
-module gormx
+module github.com/hu-1996/gormx
 
 go 1.21
 
