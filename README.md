@@ -1,5 +1,3 @@
-## 使用方式
-
 ### install
 `go get github.com/hu-1996/gormx`
 
