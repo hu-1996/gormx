@@ -172,6 +172,20 @@ func DBCount[T any](db *gorm.DB, query interface{}, args ...interface{}) (int64,
 	return total, err
 }
 
+func Exist[T any](query interface{}, args ...interface{}) (bool, error) {
+	var entity T
+	var total int64
+	err := DB.Model(&entity).Where(query, args...).Count(&total).Error
+	return total > 0, err
+}
+
+func DBExist[T any](db *gorm.DB, query interface{}, args ...interface{}) (bool, error) {
+	var entity T
+	var total int64
+	err := db.Model(&entity).Where(query, args...).Count(&total).Error
+	return total > 0, err
+}
+
 func Insert[T any](entity *T) (int64, error) {
 	result := DB.Create(entity)
 	return result.RowsAffected, result.Error
