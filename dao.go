@@ -21,13 +21,13 @@ func convert[T any, R any](entity *T) (*R, error) {
 
 func SelectById[T any](id any) (*T, error) {
 	var entity T
-	err := DB.Last(&entity, id).Error
+	err := DB.Last(&entity, "id = ?", id).Error
 	return &entity, err
 }
 
 func SelectConvertById[T any, R any](id any) (*R, error) {
 	var entity T
-	err := DB.Last(&entity, id).Error
+	err := DB.Last(&entity, "id = ?", id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -36,13 +36,13 @@ func SelectConvertById[T any, R any](id any) (*R, error) {
 
 func SelectByIds[T any](ids any) ([]*T, error) {
 	var records []*T
-	err := DB.Find(&records, ids).Error
+	err := DB.Find(&records, "id IN ?", ids).Error
 	return records, err
 }
 
 func SelectConvertByIds[T any, R any](ids any) ([]*R, error) {
 	var records []*T
-	err := DB.Find(&records, ids).Error
+	err := DB.Find(&records, "id IN ?", ids).Error
 	if err != nil {
 		return nil, err
 	}
@@ -250,13 +250,13 @@ func TxUpdatesMap[T any](tx *gorm.DB, data map[string]interface{}, query interfa
 
 func DeleteById[T any](id any) (int64, error) {
 	var entity T
-	result := DB.Delete(&entity, id)
+	result := DB.Delete(&entity, "id = ?", id)
 	return result.RowsAffected, result.Error
 }
 
 func DeleteByIds[T any](ids any) (int64, error) {
 	var entity T
-	result := DB.Delete(&entity, ids)
+	result := DB.Delete(&entity, "id IN ?", ids)
 	return result.RowsAffected, result.Error
 }
 
@@ -268,13 +268,13 @@ func Delete[T any](query interface{}, args ...interface{}) (int64, error) {
 
 func TxDeleteById[T any](tx *gorm.DB, id any) (int64, error) {
 	var entity T
-	result := tx.Delete(&entity, id)
+	result := tx.Delete(&entity, "id = ?", id)
 	return result.RowsAffected, result.Error
 }
 
 func TxDeleteByIds[T any](tx *gorm.DB, ids any) (int64, error) {
 	var entity T
-	result := tx.Delete(&entity, ids)
+	result := tx.Delete(&entity, "id IN ?", ids)
 	return result.RowsAffected, result.Error
 }
 
