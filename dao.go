@@ -192,8 +192,8 @@ func Insert[T any](entity *T) (int64, error) {
 }
 
 func InsertBatches[T any](entities []*T) (int64, error) {
-	var entity T
-	result := DB.Model(&entity).Create(entities)
+	entity := entities[0]
+	result := DB.Model(entity).Create(entities)
 	return result.RowsAffected, result.Error
 }
 
@@ -203,8 +203,8 @@ func TxInsert[T any](tx *gorm.DB, entity *T) (int64, error) {
 }
 
 func TxInsertBatches[T any](tx *gorm.DB, entities []*T) (int64, error) {
-	var entity T
-	result := tx.Model(&entity).Create(entities)
+	entity := entities[0]
+	result := tx.Model(entity).Create(entities)
 	return result.RowsAffected, result.Error
 }
 
@@ -214,8 +214,8 @@ func Update[T any](entity *T) (int64, error) {
 }
 
 func UpdateBatches[T any](entities []*T) (int64, error) {
-	var entity T
-	result := DB.Model(&entity).Save(entities)
+	entity := entities[0]
+	result := DB.Model(entity).Save(entities)
 	return result.RowsAffected, result.Error
 }
 
@@ -236,8 +236,8 @@ func TxUpdate[T any](tx *gorm.DB, entity *T) (int64, error) {
 }
 
 func TxUpdateBatches[T any](tx *gorm.DB, entities []*T) (int64, error) {
-	var entity T
-	result := tx.Model(&entity).Save(entities)
+	entity := entities[0]
+	result := tx.Model(entity).Save(entities)
 	return result.RowsAffected, result.Error
 }
 
